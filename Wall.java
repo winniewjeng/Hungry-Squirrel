@@ -8,6 +8,6 @@
  *
  * @author winniferjeng
  */
-public class Wall {
+public class Wall extends Entity {
     
 }

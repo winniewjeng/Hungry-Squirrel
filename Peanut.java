@@ -8,6 +8,6 @@
  *
  * @author winniferjeng
  */
-public class Peanut {
+public class Peanut extends Nut {
     
 }

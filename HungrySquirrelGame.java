@@ -9,5 +9,7 @@
  * @author winniferjeng
  */
 public class HungrySquirrelGame {
+    public static void main(String args[]) {
+    }
     
 }

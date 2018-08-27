@@ -8,6 +8,6 @@
  *
  * @author winniferjeng
  */
-public class Nut {
+public class Nut extends Entity {
     
 }

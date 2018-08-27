@@ -8,6 +8,6 @@
  *
  * @author winniferjeng
  */
-public class Squirrel {
+public class Squirrel extends Entity {
     
 }
