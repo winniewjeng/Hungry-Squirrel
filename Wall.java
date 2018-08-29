@@ -10,4 +10,8 @@
  */
 public class Wall extends Entity {
     
+    public Wall(int row, int column, char symbol) {
+        super(row, column, symbol);
+    }
+    
 }

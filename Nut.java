@@ -10,4 +10,8 @@
  */
 public class Nut extends Entity {
     
+    public Nut(int row, int column, char symbol) {
+        super(row, column, symbol);
+    }
+    
 }

@@ -8,13 +8,9 @@
  *
  * @author winniferjeng
  */
-public class HungrySquirrelGame {
-    
-    public static void main(String args[]) {
-        
-        Maze maze = new Maze();
-        
-        maze.create();
-    }
+import java.io.File;
+
+public class Test {
+
     
 }

@@ -4,48 +4,72 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Maze {
-    
-    private String filename = "Maze.txt";
+
+    private String filename;
     private Scanner in;
-    private int Max_Maze_Row = 20;
-    private int Max_Maze_Column = 50;
-    //maze needs to be an entity, ie. Entity[][] maze
-    private String[][] maze;
-    
-    //Constructor
-    public Maze(){}
-    
-//    This method reads the file passed to the method (e.g. Maze.txt) 
-//    and initializes the 2-dimentional array with the maze content provided in the file.
-//    WHY can't it be a static method?
-    public void create(String filename) {
-        //Open the maze.txt file
+    private static final int Max_Maze_Row = 20;
+    private static final int Max_Maze_Column = 50;
+    private Entity[][] maze;
+    private String[] mazeArrayRow;
+    private char[] mazeArrayToChar;
+    private char symbol;
+    private Entity entity;
+
+    public Maze() {
+        this.filename = "Maze.txt";
+        maze = new Entity[Max_Maze_Row][Max_Maze_Column];
+        mazeArrayRow = new String[20];
+        mazeArrayToChar = new char[1000];
+    }
+
+    public void create() {
         try {
             in = new Scanner(new File(filename));
-            //populate the boatArray with all the boat names inside boat.txt
-            while (in.hasNextLine()) {
-                for (int i = 0; i < Max_Maze_Row; i++) {
-                    for (int j = 0; j < Max_Maze_Column; j++) {
-                        maze[i][j] = in.next();
+  
+
+            while (in.hasNext()) {
+                for (int i = 0; i < 20; i++) {
+                    mazeArrayRow[i] = in.nextLine();
+                    mazeArrayToChar = mazeArrayRow[i].toCharArray();
+                    for (int j = 0; j < 50; j++){
+                        symbol = mazeArrayToChar[j];
+//                        System.out.print(symbol);
+                        maze[i][j] = new Entity(i, j, symbol);
+//                        System.out.print(maze[i][j]);
+//                        System.out.print("i: " + i + " ");
+//                        System.out.print("j: " + j + " ");
+//                        System.out.println("symbol: "+ symbol + " ");
                     }
+                    
+//                    System.out.println();
+//                    System.out.println(mazeArrayToChar);
+//                    System.out.println(" e "+ mazeArrayRow[i] +" e ");
+//                    parse the string into chars
+//                    System.out.println(mazeArrayRow[i].toCharArray());
+//                    mazeArrayRow[i].toCharArray();
+//                    System.out.println(mazeArrayRow[i]);                 
+//                    mazeArrayRow[i].toCharArray();
                 }
             }
+            //Close the file
             in.close();
-            
         } catch (FileNotFoundException e) {
-            System.out.println("Cannot find " + filename);
+            System.out.println("Could not find " + filename);
         }
-    
     }
-    
-//    This method displays the maze structure and the containing entities.
-    public static void display() {}
 
-//    This method takes a row and a column and determines if the location is a 
-//    blank space. If it is, it returns true; otherwise, it returns false.
-    public static boolean available(int row, int col) {
+    public void display() {
         
+        for (int i = 0; i < 20; i++) {
+            for (int j = 0; j < 50; j++){
+                System.out.print(maze[i][j]);
+//                System.out.print(symbol);
+            }
+            System.out.println("");
+        }
+    }
+
+    public boolean available() {
         return false;
     }
-    
 }

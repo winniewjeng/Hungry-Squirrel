@@ -10,4 +10,8 @@
  */
 public class Peanut extends Nut {
     
+    public Peanut(int row, int column, char symbol) {
+        super(row, column, symbol);
+    }
+    
 }

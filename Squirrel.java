@@ -10,4 +10,8 @@
  */
 public class Squirrel extends Entity {
     
+    public Squirrel(int row, int column, char symbol) {
+        super(row, column, symbol);
+    }
+    
 }
