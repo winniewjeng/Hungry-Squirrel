@@ -21,7 +21,6 @@ public class Maze {
         maze = new Entity[Max_Maze_Row][Max_Maze_Column];
         mazeArrayRow = new String[20];
         mazeArrayToChar = new char[1000];
-
     }
 
     public static Entity[][] getMaze() {
@@ -75,9 +74,13 @@ public class Maze {
         }
     }
 //    Pass in a location. If the location is a wall or out of bounds, return false.
-    public boolean available(int row, int col) {
-        
-        if (maze[row][col].getSymbol() == '*' || row < 0 || row > Max_Maze_Row || col < 0 || col > Max_Maze_Column) {
+    public static boolean available(int row, int col) {
+
+        if (maze[row][col].getSymbol() == '*') {
+            System.out.println("This position is occupied by the wall. Try again.");
+            return false;
+        } else if (row < 0 || row > Max_Maze_Row || col < 0 || col > Max_Maze_Column) {
+            System.out.println("This position is outside of the boundary of the maze. Try again.");
             return false;
         }
         return true;
