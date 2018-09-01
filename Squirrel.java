@@ -33,7 +33,7 @@ public class Squirrel extends Entity implements Movable {
     //This method prompts for user input
     public String takeUserInput() {
         System.out.print("Where would you like to place the squirrel? "
-                + "Enter the row and column as separated by a comma, ie. 7, 23 ");
+                + "Enter the row and column as separated by a comma, ie. 2, 23 ");
         String inputPositionStr;
         //Take user input
         inputPositionStr = in.nextLine();
@@ -90,31 +90,60 @@ public class Squirrel extends Entity implements Movable {
     }
 
     public void move(char direction) {
-//        Based on the direction chosen, move the Squirrel to a diff maze[][] index
-        switch (direction) {
-            case 'W':
-                if (maze.available(this.row - 1, this.column)) {
-                    entity.put(entity.getRow() - 1, entity.getCol(), entity.getSymbol());
-                }
-                break;
-            case 'A':
-                if (maze.available(this.row, this.column - 1)) {
-                    entity.put(entity.getRow(), entity.getCol() - 1, entity.getSymbol());
-                }
-                break;
-            case 'S':
-                if (maze.available(this.row + 1, this.column)) {
-                    entity.put(entity.getRow() + 1, entity.getCol(), entity.getSymbol());
-                }
-                break;
-            case 'D':
-                if (maze.available(this.row, this.column + 1)) {
-                    entity.put(entity.getRow(), entity.getCol() + 1, entity.getSymbol());
-                }
-                break;
-            default:
-                System.out.println("Invalid move!");
-                break;
+        int oldRow;
+        int oldCol;
+        //CHANGE THE CODE BELOW TO SWITCH STATEMENTS IF I HAVE MORE TIME
+        if (direction == 'W') {
+            if (maze.available(this.row - 1, this.column)) {
+                //store the current position (this.) inside a temp variable
+                oldRow = this.row;
+//                System.out.println("oldRow " + oldRow + " was a " + maze.getMaze()[oldRow][this.column]);
+                //replace the old position occupied by squirrel with a blank space ' '
+                maze.getMaze()[oldRow][this.column] = new Entity(oldRow, this.column, ' ');
+//                System.out.println("oldRow at " + oldRow + " after put should be a " + replacement + ".");
+
+                //update the current row position
+                this.row = this.row - 1;
+                //call put for the newRow pos
+                this.put(this.getRow(), this.getCol());
+                maze.display();
+
+                //Brute force debugging lines
+//                System.out.println("thisRow " + this.row + " was a " + maze.getMaze()[this.row][this.column]);
+//                System.out.println("thisRow at " + this.row + " after put should be a " + maze.getMaze()[oldRow][this.column] + ".");
+//                System.out.println(this.getRow()); // this works
+//                System.out.println(entity.getRow()); //this crashes
+//                this.put(this.getRow(), this.getCol()); //this works 
+//                entity.put(entity.getRow(), entity.getCol(), entity.getSymbol()); // this crashes
+            }
+        } else if (direction == 'A') {
+            if (maze.available(this.row, this.column - 1)) {
+                oldCol = this.column;
+                maze.getMaze()[this.row][oldCol] = new Entity(this.row, oldCol, ' ');
+                this.column = this.column - 1;
+                this.put(this.getRow(), this.getCol());
+                maze.display();
+            }
+        } else if (direction == 'S') {
+            if (maze.available(this.row + 1, this.column)) {
+                oldRow = this.row;
+                maze.getMaze()[oldRow][this.column] = new Entity(oldRow, this.column, ' ');
+                this.row = this.row + 1;
+                this.put(this.getRow(), this.getCol());
+                maze.display();
+            }
+        } else if (direction == 'D') {
+            if (maze.available(this.row, this.column + 1)) {
+                oldCol = this.column;
+                maze.getMaze()[this.row][oldCol] = new Entity(this.row, oldCol, ' ');
+                this.column = this.column + 1;
+                this.put(this.getRow(), this.getCol());
+                maze.display();
+            }
+        } else if (direction == 'Q') {
+            //Do nothing. Quit game
+        } else {
+            System.out.println("This is not a valid move key. Only enter W, A, S, D");
         }
     }
 

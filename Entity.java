@@ -14,7 +14,7 @@ public class Entity {
         this.row = row;
         this.column = column;
         this.symbol = symbol;
-        this.put(this.row, this.column, this.symbol);
+        this.put(this.row, this.column);
     }
 
     //abstract method
@@ -37,13 +37,15 @@ public class Entity {
 //    This method returns an object that was replaced in the maze. 
 //    (hint: This can be useful when moving the squirrel and determining if the squirrel found a nut).
     //NOT YET IMPLEMENTED--PUT THINGS IN THE MAZE? UPDATE THE MAZE?
-    public Entity put(int newRow, int newCol, char symb) {
+    public Entity put(int newRow, int newCol) {
         //Ideally, oldEntity is a blank space so newEntity can be dropped there. 
         //If not, if it's a nut, oldEntity can still be replaced by newEntity
         //But if the oldEntity is a '*', then return err msg
+
         Entity oldEntity = Maze.getMaze()[newRow][newCol];
-        Entity newEntity = this; //"this" refers to the entity that calls the put() method
+//        "this" refers to the entity that calls the put() method
         Maze.getMaze()[newRow][newCol] = this;
+//        System.out.println("pass pos row " + newRow + " column " + newCol);
 
         return oldEntity;
     }
