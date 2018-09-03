@@ -1,3 +1,4 @@
+
 public class Entity {
 //    This instance variable is a character symbol by which an entity is identified on the Maze. 
 //    For example, a squirrel is represented by ‘@’. Each nut will be represented by the first 
@@ -16,6 +17,7 @@ public class Entity {
         this.symbol = symbol;
         this.put(this.row, this.column);
     }
+    public Entity(){}
 
     //abstract method
     public void create() {
@@ -42,11 +44,14 @@ public class Entity {
         //If not, if it's a nut, oldEntity can still be replaced by newEntity
         //But if the oldEntity is a '*', then return err msg
 
+        //Most likely, oldEntity is a blank space. Occassionally oldEntity is a Nut
         Entity oldEntity = Maze.getMaze()[newRow][newCol];
-//        "this" refers to the entity that calls the put() method
+        //"this" refers to the entity that calls the put() method
+        //the new position indicated becomes the entity that calls the put()
         Maze.getMaze()[newRow][newCol] = this;
-//        System.out.println("pass pos row " + newRow + " column " + newCol);
-
+////        System.out.println("pass pos row " + newRow + " column " + newCol);
+//System.out.println("this is " + this );
+        //put() returns the object that was replaced
         return oldEntity;
     }
 

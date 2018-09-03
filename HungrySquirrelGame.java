@@ -1,3 +1,6 @@
+
+import java.util.Scanner;
+
 public class HungrySquirrelGame {
 
     public static void main(String args[]) {
@@ -19,6 +22,14 @@ public class HungrySquirrelGame {
         squirrel.create();
         squirrel = new Squirrel(squirrel.getRow(), squirrel.getCol(), '@');
 
+        //..
+//        Nut nut = new Nut();
+        Nut almond = new Almond();
+        
+        Nut peanut = new Peanut();
+
+        
+        //..
         //
         //Drop down the nuts
         //
@@ -30,11 +41,10 @@ public class HungrySquirrelGame {
         System.out.println("Press W to move up, A to move left, S to move down, D to move right, and Q to quit the game.\n"
                 + "Let's Begin moving the squirrel @ through the maze!\n");
 
+        //Keep playing the game until Quit or Win
         do {
             direction = squirrel.takeDirection();
             squirrel.move(direction);
-//            maze.display();
-
         } while (direction != 'Q'); // || totalPoints earned < 25 || nutsEaten count != 5
     }
 }

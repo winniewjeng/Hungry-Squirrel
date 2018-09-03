@@ -74,15 +74,30 @@ public class Maze {
         }
     }
 //    Pass in a location. If the location is a wall or out of bounds, return false.
-    public static boolean available(int row, int col) {
 
-        if (maze[row][col].getSymbol() == '*') {
-            System.out.println("This position is occupied by the wall. Try again.");
-            return false;
-        } else if (row < 0 || row > Max_Maze_Row || col < 0 || col > Max_Maze_Column) {
+    public static boolean available(int row, int col) {
+        if (row < 0 || row > Max_Maze_Row || col < 0 || col > Max_Maze_Column) {
             System.out.println("This position is outside of the boundary of the maze. Try again.");
             return false;
+        } else if (maze[row][col].getSymbol() == '*') {
+            return false;
         }
+
         return true;
     }
+
+    public static int getTotalRows() {
+        return Max_Maze_Row;
+    }
+
+    public static int getTotalCols() {
+        return Max_Maze_Column;
+    }
+
+    @Override
+    public String toString() {
+
+        return this.symbol + "";
+    }
+
 }

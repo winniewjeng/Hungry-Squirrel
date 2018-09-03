@@ -1,3 +1,4 @@
+
 import java.util.Scanner;
 
 public class Squirrel extends Entity implements Movable {
@@ -13,11 +14,8 @@ public class Squirrel extends Entity implements Movable {
         super(row, col, symb);
         pointsCollected = 0;
         totalNutsEaten = 0;
-//        maze.create();
-//        this.create(); //Calling Squirrel
-//        System.out.println("row " + this.row + " col " + this.column);
-
     }
+    public Squirrel(){}
 
 //    This method prompts the user to enter the initial location of the squirrel in the maze.
 //    You have to make sure the location provided by the user is valid and available. 
@@ -115,6 +113,8 @@ public class Squirrel extends Entity implements Movable {
 //                System.out.println(entity.getRow()); //this crashes
 //                this.put(this.getRow(), this.getCol()); //this works 
 //                entity.put(entity.getRow(), entity.getCol(), entity.getSymbol()); // this crashes
+            } else {
+                System.out.println("Ouch! You hit the wall! Try again.");
             }
         } else if (direction == 'A') {
             if (maze.available(this.row, this.column - 1)) {
@@ -123,6 +123,8 @@ public class Squirrel extends Entity implements Movable {
                 this.column = this.column - 1;
                 this.put(this.getRow(), this.getCol());
                 maze.display();
+            } else {
+                System.out.println("Ouch! You hit the wall! Try again.");
             }
         } else if (direction == 'S') {
             if (maze.available(this.row + 1, this.column)) {
@@ -131,6 +133,8 @@ public class Squirrel extends Entity implements Movable {
                 this.row = this.row + 1;
                 this.put(this.getRow(), this.getCol());
                 maze.display();
+            } else {
+                System.out.println("Ouch! You hit the wall! Try again.");
             }
         } else if (direction == 'D') {
             if (maze.available(this.row, this.column + 1)) {
@@ -139,9 +143,12 @@ public class Squirrel extends Entity implements Movable {
                 this.column = this.column + 1;
                 this.put(this.getRow(), this.getCol());
                 maze.display();
+            } else {
+                System.out.println("Ouch! You hit the wall! Try again.");
             }
         } else if (direction == 'Q') {
-            //Do nothing. Quit game
+//            System.out.println("Squirrel successfully collected all the nuts. Total points:40\n" +
+//                    "Thank you for playing this game");
         } else {
             System.out.println("This is not a valid move key. Only enter W, A, S, D");
         }
