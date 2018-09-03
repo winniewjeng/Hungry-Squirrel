@@ -8,24 +8,24 @@ public class Squirrel extends Entity implements Movable {
     private int totalNutsEaten;
     private Scanner in = new Scanner(System.in);
     private Maze maze;
+    private Almond almond;
+    private Peanut peanut;
+    private Nut nut;
 
     //Constructor
     public Squirrel(int row, int col, char symb) {
         super(row, col, symb);
         pointsCollected = 0;
         totalNutsEaten = 0;
-    }
-    public Squirrel(){}
 
-//    This method prompts the user to enter the initial location of the squirrel in the maze.
-//    You have to make sure the location provided by the user is valid and available. 
-//    If the user provides an invalid or unavailable location where there is already a wall (‘*’), 
-//    the program must ask the user to input a new set of row and column.
-    //NOT YET IMPLEMENTED
+    }
+
+    public Squirrel() {
+    }
+
     @Override
     public void create() {
-        this.takeUserInput(); //this outputs a string?
-//        System.out.println("row " + this.row + " col " + this.column);
+        this.takeUserInput(); //takeUserInput() returns a string
     }
 
     //This method prompts for user input
@@ -35,7 +35,7 @@ public class Squirrel extends Entity implements Movable {
         String inputPositionStr;
         //Take user input
         inputPositionStr = in.nextLine();
-        //CHECK if the input format is correct by calling inputIsValidStr().
+        //CHECK if the input format is correct by calling inputIsValidStr()
         //Keep prompting for new input if input format is wrong
         while (!this.inputIsValid(inputPositionStr)) {
             inputPositionStr = in.nextLine();
@@ -43,21 +43,20 @@ public class Squirrel extends Entity implements Movable {
         return inputPositionStr;
     }
 
-    //This method inside take userInput checks if user input is valid
+    //This method is embedded inside takeUserInput(); it checks if user input is valid
     public boolean inputIsValid(String inputPositionStr) {
         //Parse user input into row and column strings and store them as substr inside an array 
         String posRowAndCol[] = inputPositionStr.split(", ");
         if (posRowAndCol.length != 2) {
-            System.out.println("Your input format is incorrect. Use \", \" to separate the row from the column. Try again.");
+            System.out.println("Your input format is incorrect. Use \", \"-comma and space-to separate row and column. Try again.");
             return false;
         }
         String rowStr = posRowAndCol[0];
         String colStr = posRowAndCol[1];
-
-        //cast the row and column strings into integers. Reassign them
+        //cast the row and column strings into integers
         this.row = Integer.parseInt(rowStr);
         this.column = Integer.parseInt(colStr);
-
+        //if position is unavailable, invalid input, return false
         if (!maze.available(this.row, this.column)) {
             return false;
         }
@@ -73,13 +72,6 @@ public class Squirrel extends Entity implements Movable {
         return this.column;
     }
 
-    //This method checks available() in the Maze class to see if the position can be taken
-//    public boolean checkInput() {
-//        //Return true if the position of the Squirrel is not a wall. Otherwise, return false
-//
-//        
-//        return false;
-//    }
     public char takeDirection() {
         System.out.println("Enter direction ('W', 'A', 'S', 'D'): ");
         char direction = in.next().charAt(0);
@@ -87,11 +79,14 @@ public class Squirrel extends Entity implements Movable {
         return direction;
     }
 
+    //I admit this is a fat method. Can probably be further chop down in the future.
+    //All the comments inside are intentionally left undeleted for future reference.
     public void move(char direction) {
         int oldRow;
         int oldCol;
-        //CHANGE THE CODE BELOW TO SWITCH STATEMENTS IF I HAVE MORE TIME
+
         if (direction == 'W') {
+
             if (maze.available(this.row - 1, this.column)) {
                 //store the current position (this.) inside a temp variable
                 oldRow = this.row;
@@ -104,6 +99,7 @@ public class Squirrel extends Entity implements Movable {
                 this.row = this.row - 1;
                 //call put for the newRow pos
                 this.put(this.getRow(), this.getCol());
+                this.foundNuts(this.getRow(), this.getCol());
                 maze.display();
 
                 //Brute force debugging lines
@@ -113,8 +109,6 @@ public class Squirrel extends Entity implements Movable {
 //                System.out.println(entity.getRow()); //this crashes
 //                this.put(this.getRow(), this.getCol()); //this works 
 //                entity.put(entity.getRow(), entity.getCol(), entity.getSymbol()); // this crashes
-            } else {
-                System.out.println("Ouch! You hit the wall! Try again.");
             }
         } else if (direction == 'A') {
             if (maze.available(this.row, this.column - 1)) {
@@ -122,9 +116,8 @@ public class Squirrel extends Entity implements Movable {
                 maze.getMaze()[this.row][oldCol] = new Entity(this.row, oldCol, ' ');
                 this.column = this.column - 1;
                 this.put(this.getRow(), this.getCol());
+                this.foundNuts(this.getRow(), this.getCol());
                 maze.display();
-            } else {
-                System.out.println("Ouch! You hit the wall! Try again.");
             }
         } else if (direction == 'S') {
             if (maze.available(this.row + 1, this.column)) {
@@ -132,9 +125,8 @@ public class Squirrel extends Entity implements Movable {
                 maze.getMaze()[oldRow][this.column] = new Entity(oldRow, this.column, ' ');
                 this.row = this.row + 1;
                 this.put(this.getRow(), this.getCol());
+                this.foundNuts(this.getRow(), this.getCol());
                 maze.display();
-            } else {
-                System.out.println("Ouch! You hit the wall! Try again.");
             }
         } else if (direction == 'D') {
             if (maze.available(this.row, this.column + 1)) {
@@ -142,16 +134,40 @@ public class Squirrel extends Entity implements Movable {
                 maze.getMaze()[this.row][oldCol] = new Entity(this.row, oldCol, ' ');
                 this.column = this.column + 1;
                 this.put(this.getRow(), this.getCol());
+                this.foundNuts(this.getRow(), this.getCol());
                 maze.display();
-            } else {
-                System.out.println("Ouch! You hit the wall! Try again.");
             }
         } else if (direction == 'Q') {
-//            System.out.println("Squirrel successfully collected all the nuts. Total points:40\n" +
-//                    "Thank you for playing this game");
+            System.out.println("Aw you did not choose to complete the game. Total points: " + pointsCollected);
         } else {
             System.out.println("This is not a valid move key. Only enter W, A, S, D");
         }
     }
 
+    public void foundNuts(int row, int col) {
+
+        for (int i = 0; i < 5; i++) {
+            if (row == nut.validRowPos[i] && col == nut.validColPos[i]) {
+                if (nut.nutTypes[i] == 'A') {
+                    pointsCollected += 5;
+                    System.out.println("Squirrel found an almond and gained 5 points! Total points: " + pointsCollected);
+                    totalNutsEaten++;
+                    
+                } else {
+                    pointsCollected += 10;
+                    System.out.println("Squirrel found a peanut and gained 10 points! Total points: " + pointsCollected);
+                    totalNutsEaten++;
+                }
+            }
+
+        }
+    }
+    
+    public int nutsEaten(){
+        return totalNutsEaten;
+    }
+    
+    public int points(){
+        return pointsCollected;
+    }
 }

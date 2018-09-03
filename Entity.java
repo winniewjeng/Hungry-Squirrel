@@ -2,7 +2,6 @@
 public class Entity {
 //    This instance variable is a character symbol by which an entity is identified on the Maze. 
 //    For example, a squirrel is represented by ‘@’. Each nut will be represented by the first 
-
     protected char symbol;
 //    This instance variable is the row position of the entity in the maze.
     protected int row;
@@ -37,8 +36,6 @@ public class Entity {
 
 //    This method puts an entity at location (newRow, newCol) in the maze. 
 //    This method returns an object that was replaced in the maze. 
-//    (hint: This can be useful when moving the squirrel and determining if the squirrel found a nut).
-    //NOT YET IMPLEMENTED--PUT THINGS IN THE MAZE? UPDATE THE MAZE?
     public Entity put(int newRow, int newCol) {
         //Ideally, oldEntity is a blank space so newEntity can be dropped there. 
         //If not, if it's a nut, oldEntity can still be replaced by newEntity
@@ -46,6 +43,7 @@ public class Entity {
 
         //Most likely, oldEntity is a blank space. Occassionally oldEntity is a Nut
         Entity oldEntity = Maze.getMaze()[newRow][newCol];
+        
         //"this" refers to the entity that calls the put() method
         //the new position indicated becomes the entity that calls the put()
         Maze.getMaze()[newRow][newCol] = this;

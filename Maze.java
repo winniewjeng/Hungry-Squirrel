@@ -47,14 +47,6 @@ public class Maze {
 //                        System.out.print("j: " + j + " ");
 //                        System.out.println("symbol: "+ symbol + " ");
                     }
-//                    System.out.println();
-//                    System.out.println(mazeArrayToChar);
-//                    System.out.println(" e "+ mazeArrayRow[i] +" e ");
-//                    parse the string into chars
-//                    System.out.println(mazeArrayRow[i].toCharArray());
-//                    mazeArrayRow[i].toCharArray();
-//                    System.out.println(mazeArrayRow[i]);                 
-//                    mazeArrayRow[i].toCharArray();
                 }
             }
             //Close the file
@@ -73,13 +65,14 @@ public class Maze {
             System.out.println("");
         }
     }
-//    Pass in a location. If the location is a wall or out of bounds, return false.
-
+    
+    //Pass in a location. If the location is a wall or out of bounds, return false.
     public static boolean available(int row, int col) {
         if (row < 0 || row > Max_Maze_Row || col < 0 || col > Max_Maze_Column) {
             System.out.println("This position is outside of the boundary of the maze. Try again.");
             return false;
         } else if (maze[row][col].getSymbol() == '*') {
+            System.out.println("Ouch! That's a wall. Try again.");
             return false;
         }
 
