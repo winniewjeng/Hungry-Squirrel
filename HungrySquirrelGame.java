@@ -19,7 +19,7 @@ public class HungrySquirrelGame {
         maze.display();
 
         //Instantiate a dummy squirrel object. Bad code, but works. Fix later if I have more time
-        squirrel = new Squirrel(1, 20, ' ');
+        squirrel = new Squirrel();
         //Call create() from the first dummy instantiation of squirrel object to 
         //  instatiate another key squirrel object with which we play the game. 
         //Again, bad code, but works. Fix later if I have more time
@@ -32,7 +32,7 @@ public class HungrySquirrelGame {
         //  create() can only be called once b/c it populates static nutTypes[5] and respective valid position 
         Nut almond = new Almond();
         Nut peanut = new Peanut();
-
+        Nut cashew = new PoisonousCashew();
         //Display the maze with the squirrel and nuts in place
         maze.display();
 
@@ -46,8 +46,10 @@ public class HungrySquirrelGame {
             squirrel.move(direction);
             if (squirrel.nutsEaten() == 5) {
                 System.out.println("\nSquirrel successfully collected all the nuts. Total points: " + squirrel.points());
+            } else if (squirrel.points() < 0) {
+                System.out.println("Squirrel dies. Game over.");
             }
-        } while (direction != 'Q' && squirrel.nutsEaten() != 5);
+        } while (direction != 'Q' && squirrel.nutsEaten() != 5 && squirrel.points() >= 0);
         
         //Ending statement
         System.out.println("\nThank you for playing this game!");

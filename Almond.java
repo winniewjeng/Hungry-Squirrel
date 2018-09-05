@@ -15,7 +15,8 @@ public class Almond extends Nut {
         this.putNuts();
         nutritionPoints = 5;
     }
-
+    
+    @Override
     public void putNuts() {
 
         for (int i = 0; i < TOTAL_NUTS; i++) {

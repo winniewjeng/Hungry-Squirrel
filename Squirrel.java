@@ -11,7 +11,8 @@ public class Squirrel extends Entity implements Movable {
     private Almond almond;
     private Peanut peanut;
     private Nut nut;
-
+    private static Entity aNut;
+    
     //Constructor
     public Squirrel(int row, int col, char symb) {
         super(row, col, symb);
@@ -30,7 +31,7 @@ public class Squirrel extends Entity implements Movable {
 
     //This method prompts for user input
     public String takeUserInput() {
-        System.out.print("Where would you like to place the squirrel? "
+        System.out.println("Where would you like to place the squirrel? "
                 + "Enter the row and column as separated by a comma, ie. 2, 23 ");
         String inputPositionStr;
         //Take user input
@@ -79,8 +80,6 @@ public class Squirrel extends Entity implements Movable {
         return direction;
     }
 
-    //I admit this is a fat method. Can probably be further chop down in the future.
-    //All the comments inside are intentionally left undeleted for future reference.
     public void move(char direction) {
         int oldRow;
         int oldCol;
@@ -88,54 +87,57 @@ public class Squirrel extends Entity implements Movable {
         if (direction == 'W') {
 
             if (maze.available(this.row - 1, this.column)) {
+                //output a line if squirrel finds a nut in the current position
+                this.foundNuts(this.row - 1, this.column);
                 //store the current position (this.) inside a temp variable
                 oldRow = this.row;
-//                System.out.println("oldRow " + oldRow + " was a " + maze.getMaze()[oldRow][this.column]);
                 //replace the old position occupied by squirrel with a blank space ' '
                 maze.getMaze()[oldRow][this.column] = new Entity(oldRow, this.column, ' ');
-//                System.out.println("oldRow at " + oldRow + " after put should be a " + replacement + ".");
-
                 //update the current row position
                 this.row = this.row - 1;
                 //call put for the newRow pos
                 this.put(this.getRow(), this.getCol());
-                this.foundNuts(this.getRow(), this.getCol());
+                //display the updated maze
                 maze.display();
-
-                //Brute force debugging lines
-//                System.out.println("thisRow " + this.row + " was a " + maze.getMaze()[this.row][this.column]);
-//                System.out.println("thisRow at " + this.row + " after put should be a " + maze.getMaze()[oldRow][this.column] + ".");
-//                System.out.println(this.getRow()); // this works
-//                System.out.println(entity.getRow()); //this crashes
-//                this.put(this.getRow(), this.getCol()); //this works 
-//                entity.put(entity.getRow(), entity.getCol(), entity.getSymbol()); // this crashes
+            } else {
+                System.out.println("Ouch! That's a wall. Try again.");
             }
         } else if (direction == 'A') {
             if (maze.available(this.row, this.column - 1)) {
+                this.foundNuts(this.row, this.column - 1);
                 oldCol = this.column;
                 maze.getMaze()[this.row][oldCol] = new Entity(this.row, oldCol, ' ');
                 this.column = this.column - 1;
+//                this.foundNuts(this.getRow(), this.getCol());
                 this.put(this.getRow(), this.getCol());
-                this.foundNuts(this.getRow(), this.getCol());
+
                 maze.display();
+            } else {
+                System.out.println("Ouch! That's a wall. Try again.");
             }
         } else if (direction == 'S') {
             if (maze.available(this.row + 1, this.column)) {
+                this.foundNuts(this.row + 1, this.column);
                 oldRow = this.row;
                 maze.getMaze()[oldRow][this.column] = new Entity(oldRow, this.column, ' ');
                 this.row = this.row + 1;
                 this.put(this.getRow(), this.getCol());
-                this.foundNuts(this.getRow(), this.getCol());
+//                this.foundNuts(this.getRow(), this.getCol());
                 maze.display();
+            } else {
+                System.out.println("Ouch! That's a wall. Try again.");
             }
         } else if (direction == 'D') {
             if (maze.available(this.row, this.column + 1)) {
+                this.foundNuts(this.row, this.column + 1);
                 oldCol = this.column;
                 maze.getMaze()[this.row][oldCol] = new Entity(this.row, oldCol, ' ');
                 this.column = this.column + 1;
                 this.put(this.getRow(), this.getCol());
-                this.foundNuts(this.getRow(), this.getCol());
+//                this.foundNuts(this.getRow(), this.getCol());
                 maze.display();
+            } else {
+                System.out.println("Ouch! That's a wall. Try again.");
             }
         } else if (direction == 'Q') {
             System.out.println("Aw you did not choose to complete the game. Total points: " + pointsCollected);
@@ -146,21 +148,21 @@ public class Squirrel extends Entity implements Movable {
 
     public void foundNuts(int row, int col) {
 
-        for (int i = 0; i < 5; i++) {
-            if (row == nut.validRowPos[i] && col == nut.validColPos[i]) {
-                if (nut.nutTypes[i] == 'A') {
-                    pointsCollected += 5;
-                    System.out.println("Squirrel found an almond and gained 5 points! Total points: " + pointsCollected);
-                    totalNutsEaten++;
-                    
-                } else {
-                    pointsCollected += 10;
-                    System.out.println("Squirrel found a peanut and gained 10 points! Total points: " + pointsCollected);
-                    totalNutsEaten++;
-                }
-            }
+        aNut = maze.getMaze()[row][col];
 
+        if (aNut.getSymbol() == 'A') {
+            pointsCollected += 5;
+            System.out.println("Squirrel found an almond and gained 5 points! Total points: " + pointsCollected);
+            totalNutsEaten++;
+        } else if (aNut.getSymbol() == 'P') {
+            pointsCollected += 10;
+            System.out.println("Squirrel found a peanut and gained 10 points! Total points: " + pointsCollected);
+            totalNutsEaten++;
+        } else if (aNut.getSymbol() == 'C') {
+            pointsCollected -= 15;
+            System.out.println("Squirrel ate a poisonous cashew and lost 15 points. Total points: " + pointsCollected);
         }
+
     }
     
     public int nutsEaten(){

@@ -1,13 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+//My Wall class is implemented as part of the Maze class.
+//It would be difficult, if not redundant, to separate the two
+//Since the maze wall is static final in the Maze Class.
 
-/**
- *
- * @author winniferjeng
- */
+
 public class Wall extends Entity {
     
     public Wall(int row, int column, char symbol) {

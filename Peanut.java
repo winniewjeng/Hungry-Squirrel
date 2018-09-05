@@ -13,6 +13,7 @@ public class Peanut extends Nut {
     }
 
     //loop through the static array of nutTypes and put down every peanuts that it finds in the array
+    @Override
     public void putNuts() {
         for (int i = 0; i < TOTAL_NUTS; i++) {
             if (nutTypes[i] == 'P') {

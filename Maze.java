@@ -72,7 +72,6 @@ public class Maze {
             System.out.println("This position is outside of the boundary of the maze. Try again.");
             return false;
         } else if (maze[row][col].getSymbol() == '*') {
-            System.out.println("Ouch! That's a wall. Try again.");
             return false;
         }
 
